@@ -1,7 +1,7 @@
 module.exports = function (app) {
     const axios = require("axios");
 
-    app.get("/random/hadits", async (req, res) => {
+    app.get("/muslim/hadits", async (req, res) => {
         try {
             const { data } = await axios.get("https://api.myquran.com/v2/hadits/arbain/semua");
             const datanya = data.data;
