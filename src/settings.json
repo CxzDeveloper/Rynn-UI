@@ -67,6 +67,16 @@
           "path": "/search/tiktok?q="
         }
       ]
+    },
+    {
+      "name": "Muslim Features",
+      "items": [
+        {
+        "name": "Random Hadits",
+        "desc": "Mengambil Hadits Random",
+        "path": "/muslim/hadits"
+        }
+      ]
     }
   ]
 }
