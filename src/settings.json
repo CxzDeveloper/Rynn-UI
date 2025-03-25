@@ -13,11 +13,6 @@
       "desktop": "40%"
     }
   },
-  "background": {
-    "imageSrc": "https://j.top4top.io/p_33716al0q1.jpg",
-    "position": "center",
-    "size": "cover"
-  },
   "apiSettings": {
     "creator": "CxzDeveloper"
   },
