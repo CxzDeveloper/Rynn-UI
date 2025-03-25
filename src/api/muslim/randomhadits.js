@@ -10,7 +10,6 @@ module.exports = function (app) {
             res.json({
                 status: true,
                 result: {
-                    sumber: "Scraper Hadits Arbain",
                     nomor: randomData.no,
                     judul: randomData.judul,
                     teks_arab: randomData.arab,
