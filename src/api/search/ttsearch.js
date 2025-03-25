@@ -8,17 +8,19 @@ module.exports = function(app) {
         }
 
         try {
-            const response = await axios.get('https://tikwm.com/api/feed/search', {
-                params: { keyword: q }
+            const { data } = await axios.get('https://tikwm.com/api/feed/search', {
+                params: { keyword: q, count: 10 },
+                headers: {
+                    'User-Agent': 'Mozilla/5.0',
+                    'Referer': 'https://tikwm.com/'
+                }
             });
 
-            console.log('TikWM API Response:', response.data); // Log hasil API
-
-            if (!response.data || !response.data.data) {
+            if (!data || !data.data) {
                 return res.status(500).json({ status: false, error: 'Invalid response from TikWM' });
             }
 
-            const results = response.data.data.map(video => ({
+            const results = data.data.map(video => ({
                 title: video.title || video.desc,
                 author: video.author.nickname,
                 username: video.author.unique_id,
