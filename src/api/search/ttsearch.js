@@ -8,12 +8,14 @@ module.exports = function(app) {
         }
 
         try {
-            const response = await axios.get(`https://tikwm.com/api/feed/search`, {
+            const response = await axios.get('https://tikwm.com/api/feed/search', {
                 params: { keyword: q }
             });
 
+            console.log('TikWM API Response:', response.data); // Log hasil API
+
             if (!response.data || !response.data.data) {
-                return res.status(500).json({ status: false, error: 'Failed to fetch data' });
+                return res.status(500).json({ status: false, error: 'Invalid response from TikWM' });
             }
 
             const results = response.data.data.map(video => ({
@@ -30,6 +32,7 @@ module.exports = function(app) {
 
             res.status(200).json({ status: true, result: results });
         } catch (error) {
+            console.error('API Error:', error.response ? error.response.data : error.message);
             res.status(500).json({ status: false, error: error.message });
         }
     });
