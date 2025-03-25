@@ -6,14 +6,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
         const settings = await fetch('/src/settings.json').then(res => res.json());
 
-        // Set background dari settings.json
-        if (settings.background?.imageSrc) {
-            document.body.style.backgroundImage = `url(${settings.background.imageSrc})`;
-            document.body.style.backgroundPosition = settings.background.position || "center";
-            document.body.style.backgroundSize = settings.background.size || "cover";
-            document.body.style.backgroundRepeat = "no-repeat";
-        }
-
         const setContent = (id, property, value) => {
             const element = document.getElementById(id);
             if (element) element[property] = value;
@@ -133,10 +125,87 @@ document.addEventListener('DOMContentLoaded', async () => {
             modalRefs.submitBtn.classList.add('d-none');
 
             let baseApiUrl = `${window.location.origin}${apiPath}`;
+            let params = new URLSearchParams(apiPath.split('?')[1]);
+            let hasParams = params.toString().length > 0;
 
-            handleApiRequest(baseApiUrl, modalRefs, apiName);
+            if (hasParams) {
+                const paramContainer = document.createElement('div');
+                paramContainer.className = 'param-container';
+
+                const paramsArray = Array.from(params.keys());
+                
+                paramsArray.forEach((param, index) => {
+                    const paramGroup = document.createElement('div');
+                    paramGroup.className = index < paramsArray.length - 1 ? 'mb-2' : '';
+
+                    const inputField = document.createElement('input');
+                    inputField.type = 'text';
+                    inputField.className = 'form-control';
+                    inputField.placeholder = `Enter ${param}...`;
+                    inputField.dataset.param = param;
+
+                    inputField.required = true;
+                    inputField.addEventListener('input', validateInputs);
+
+                    paramGroup.appendChild(inputField);
+                    paramContainer.appendChild(paramGroup);
+                });
+                
+                const currentItem = settings.categories
+                    .flatMap(category => category.items)
+                    .find(item => item.path === apiPath);
+
+                if (currentItem && currentItem.innerDesc) {
+                    const innerDescDiv = document.createElement('div');
+                    innerDescDiv.className = 'text-muted mt-2';
+                    innerDescDiv.style.fontSize = '13px';
+                    innerDescDiv.innerHTML = currentItem.innerDesc.replace(/\n/g, '<br>');
+                    paramContainer.appendChild(innerDescDiv);
+                }
+
+                modalRefs.queryInputContainer.appendChild(paramContainer);
+                modalRefs.submitBtn.classList.remove('d-none');
+
+                modalRefs.submitBtn.onclick = async () => {
+                    const inputs = modalRefs.queryInputContainer.querySelectorAll('input');
+                    const newParams = new URLSearchParams();
+                    let isValid = true;
+
+                    inputs.forEach(input => {
+                        if (!input.value.trim()) {
+                            isValid = false;
+                            input.classList.add('is-invalid');
+                        } else {
+                            input.classList.remove('is-invalid');
+                            newParams.append(input.dataset.param, input.value.trim());
+                        }
+                    });
+
+                    if (!isValid) {
+                        modalRefs.content.textContent = 'Please fill in all required fields.';
+                        modalRefs.content.classList.remove('d-none');
+                        return;
+                    }
+
+                    const apiUrlWithParams = `${window.location.origin}${apiPath.split('?')[0]}?${newParams.toString()}`;
+                    
+                    modalRefs.queryInputContainer.innerHTML = '';
+                    modalRefs.submitBtn.classList.add('d-none');
+                    handleApiRequest(apiUrlWithParams, modalRefs, apiName);
+                };
+            } else {
+                handleApiRequest(baseApiUrl, modalRefs, apiName);
+            }
+
             modal.show();
         });
+
+        function validateInputs() {
+            const submitBtn = document.getElementById('submitQueryBtn');
+            const inputs = document.querySelectorAll('.param-container input');
+            const isValid = Array.from(inputs).every(input => input.value.trim() !== '');
+            submitBtn.disabled = !isValid;
+        }
 
         async function handleApiRequest(apiUrl, modalRefs, apiName) {
             modalRefs.spinner.classList.remove('d-none');
@@ -184,5 +253,17 @@ document.addEventListener('DOMContentLoaded', async () => {
             loadingScreen.style.display = "none";
             body.classList.remove("no-scroll");
         }, 2000);
+    }
+});
+
+window.addEventListener('scroll', () => {
+    const navbar = document.querySelector('.navbar');
+    const navbarBrand = document.querySelector('.navbar-brand');
+    if (window.scrollY > 0) {
+        navbarBrand.classList.add('visible');
+        navbar.classList.add('scrolled');
+    } else {
+        navbarBrand.classList.remove('visible');
+        navbar.classList.remove('scrolled');
     }
 });
