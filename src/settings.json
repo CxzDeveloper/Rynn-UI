@@ -50,6 +50,11 @@
           "name": "Blue Archive",
           "desc": "Blue Archive Random Images",
           "path": "/random/ba"
+        },
+        {
+          "name": "Random Manga Shinigami",
+          "desc": "Get Info For New Manga",
+          "path": "/random/shinigami"
         }
       ]
     },
@@ -65,11 +70,6 @@
           "name": "TikTok",
           "desc": "TikTok video search",
           "path": "/search/tiktok?q="
-        },
-        {
-          "name": "Shinigami Search",
-          "desc": "Searching Shinigami info",
-          "path": "/search/shinigami-searcg?q="
         }
       ]
     },
