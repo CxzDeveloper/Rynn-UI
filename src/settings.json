@@ -1,9 +1,9 @@
 {
-  "name": "Rynn Api's",
-  "version": "Rynn UI",
-  "description": "Simple and Easy-to-Use API Documentation",
+  "name": "CxzDev Rest Api's",
+  "version": "V1.0.0",
+  "description": "Simple Rest Api For Scraping And Searching",
   "header": {
-    "status": "Online!",
+    "status": "Rest Api's Is Online!",
     "imageSrc": [
       "https://media4.giphy.com/media/l0Iy33dWjmywkCnNS/giphy.gif?cid=6c09b952p3mt40j1mgznfi9rwwtccbjl7mtc2kvfugymeinr&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=g"
     ],
@@ -14,16 +14,16 @@
     }
   },
   "apiSettings": {
-    "creator": "Rynn"
+    "creator": "CxzDeveloper"
   },
   "links": [
     {
-      "name": "Source Code",
-      "url": "https://github.com/rynxzyy/Rynn-UI"
+      "name": "Example Bot Whatsapp",
+      "url": "https://wa.me/639128145075"
     },
     {
       "name": "Contact Me",
-      "url": "https://wa.me/6285173370004"
+      "url": "https://wa.me/6283825226065"
     }
   ],
   "categories": [
