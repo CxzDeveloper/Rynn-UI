@@ -65,6 +65,11 @@
           "name": "TikTok",
           "desc": "TikTok video search",
           "path": "/search/tiktok?q="
+        },
+        {
+          "name": "Shinigami Search",
+          "desc": "Searching Shinigami info",
+          "path": "/search/shinigami-searcg?q="
         }
       ]
     },
